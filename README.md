@@ -1,243 +1,247 @@
-# 🚛 Mega Java Assignment: SmartSupplyChain – Mastering Generics, OOP & Collections
-
-## 🌍 Background: The SmartSupplyChain Initiative
-
-Welcome to **SmartSupplyChain**, a futuristic logistics platform that aims to optimize how products move across suppliers, warehouses, and customers. You’ve been hired as a **Java Systems Engineer** on the core platform team to architect and implement a **type-safe, extensible, and maintainable backend**.
-
-The project must support:
-
-- Inventory systems for various types of products
-- Flexible storage and packaging
-- Supplier and customer management
-- Support for perishables, electronics, documents, etc.
-
-But here’s the twist: your system needs to be **fully generic**, **object-oriented**, and support **future expansion**. That means:
-
-- Using **Java Generics** everywhere
-- Applying solid **OOP principles** (Encapsulation, Inheritance, Polymorphism)
-- Leveraging **Collections** (Lists, Maps)
-- Designing **abstract classes** and **interfaces** to future-proof everything
+# 🚛 Mega Java Assignment: **SmartSupplyChain**  
+### Mastering Generics, OOP, Collections & Exception Handling  
+*A real-world systems engineering challenge*
 
 ---
 
-## 🎯 What You’ll Practice
+## 🧠 Project Overview
 
-This assignment is an advanced simulation of real-world backend system design. You will:
+You're tasked with building the core of **SmartSupplyChain**, a Java-powered logistics system that handles the flow of products — from suppliers, through warehouses, to customers — **safely**, **scalably**, and **fault-tolerantly**.
 
-- Create and implement **Generic Classes**, **Interfaces**, and **Methods**
-- Apply **Bounded Type Parameters** for perishable goods
-- Use **Wildcards** to safely access and manipulate collections
-- Work with **inheritance trees** for suppliers and items
-- Practice **encapsulation and polymorphism** through proper design
-- Utilize **ArrayList** and **Map** collections
-- Understand how **Type Erasure** affects runtime behavior
+Each module should reflect best practices in:
+- OOP (encapsulation, abstraction, inheritance)
+- Generics (type safety, bounded types, wildcards)
+- Exception handling (custom exceptions, input validation)
+- Collections (List, Map)
+- System simulation (via `main()`)
 
 ---
 
-## 🧱 Project Structure (Suggestion)
+## 🗂️ **SmartSupplyChain – Full Project Structure**
 
 ```
 SmartSupplyChain/
+├── README.md                       # Project overview and setup instructions
 ├── src/
 │   ├── main/
-│   │   └── SmartSupplyChainApp.java
-│   ├── items/
-│   │   ├── Product.java (abstract)
-│   │   ├── Perishable.java
-│   │   ├── Document.java
-│   │   ├── Electronic.java
-│   ├── inventory/
-│   │   ├── StorageUnit<T>
-│   │   ├── Package<T>
-│   │   ├── Inventory<T>
-│   ├── people/
-│   │   ├── Person.java (abstract)
-│   │   ├── Supplier.java
-│   │   ├── Customer.java
-│   ├── system/
-│   │   ├── SupplyChainUtils.java (generic methods)
-│   │   ├── ProductRepository<T> (generic interface)
-├── README.md
+│   │   └── SmartSupplyChainApp.java        # Entry point: simulation, flow orchestration
+│
+│   ├── items/                              # Product domain layer
+│   │   ├── Product.java                    # Abstract base for all products
+│   │   ├── Perishable.java                 # Extends Product, includes expiration logic
+│   │   ├── Document.java                   # Concrete non-perishable product
+│   │   ├── Electronic.java                 # Concrete electronic product
+│
+│   ├── inventory/                          # Inventory and packaging logic
+│   │   ├── StorageUnit.java                # Generic container for items
+│   │   ├── MultiStorageUnit.java           # Generic container that stores a list
+│   │   ├── Package.java                    # Wraps a group of items
+│   │   ├── Inventory.java                  # Maps package IDs to packages
+│
+│   ├── people/                             # Actors interacting with inventory
+│   │   ├── Person.java                     # Abstract person class
+│   │   ├── Supplier.java                   # Supplies packages
+│   │   ├── Customer.java                   # Receives packages
+│
+│   ├── system/                             # Utility functions for logic & validation
+│   │   ├── SupplyChainUtils.java          # Generic methods, validation, expiration checks
+│
+│   ├── exception/                          # Custom exception handling
+│   │   ├── ExpiredProductException.java    # Thrown when expired items are used
+│   │   ├── EmptyStorageException.java      # Thrown when accessing empty storage
+│   │   ├── InvalidInputException.java      # Thrown when user/product input is invalid
 ```
 
 ---
 
-## 📚 Assignment Story & Tasks
+## 🧾 What's in each folder?
 
-### 🚦 Task 1: Model the Core Product Hierarchy
+### `items/`
+All product-related classes, forming the inheritance hierarchy. This includes perishable items that may throw exceptions if expired.
 
-#### Background:
+### `inventory/`
+Logic related to how products are stored, grouped, and managed. It also handles generic containers and inventory mapping.
 
-Products vary in type. Some expire (like milk), some don't (like documents), and some are electronic. All share some common behavior, but their implementation differs.
+### `people/`
+Classes for users of the system: suppliers (who provide packages) and customers (who receive them). These classes interact with inventory safely.
 
-#### Instructions:
+### `system/`
+Contains reusable tools like item printers, expiration checkers, and input validators.
 
-1. Create an **abstract class **`` with properties like `name`, `id`, and `getType()`.
-2. Create the following concrete subclasses:
-   - `Document`
-   - `Electronic`
-   - `Perishable` (add field: `expirationDate` and method `isExpired()`)
-3. Use **encapsulation** for fields and provide accessors.
-4. Override `toString()` for pretty logging.
+### `exception/`
+Custom exceptions that enforce safe and robust code:
+- **ExpiredProductException**: for expired item handling.
+- **EmptyStorageException**: for attempting to retrieve from empty storage.
+- **InvalidInputException**: for catching invalid user or object input early.
 
-#### Concepts Practiced:
-
-- Inheritance
-- Abstract classes
-- Encapsulation
-
----
-
-### 🏪 Task 2: Build a Generic Storage Unit
-
-#### Background:
-
-Each warehouse stores items differently. You must create flexible, type-safe containers.
-
-#### Instructions:
-
-1. Create a **generic class **`` with:
-   - `addItem(T item)`
-   - `T getItem()`
-2. Add a version of `StorageUnit<T>` that stores **lists of items**, e.g., `ArrayList<T>`.
-3. Support bulk addition and retrieval.
-
-#### Concepts Practiced:
-
-- Generic classes
-- ArrayList usage
+### `main/`
+The heart of the simulation — here, you'll glue everything together, simulate operations, and catch exceptions gracefully.
 
 ---
 
-### 📦 Task 3: Create Packages and Inventory
-
-#### Background:
-
-Products are packaged into boxes, and multiple boxes make up inventory.
-
-#### Instructions:
-
-1. Create a ``** generic class** to wrap multiple products.
-2. Create a ``** class** with a `Map<String, Package<T>>` to map package IDs to their contents.
-3. Use wildcards to support printing inventory with `printInventory(List<? extends Product>)`
-
-#### Concepts:
-
-- Wildcards in collections
-- Map usage
+## 📚 Task Breakdown
 
 ---
 
-### 👩‍💼 Task 4: Create People Hierarchy
+### 🚦 **Task 1: Model the Core Product Hierarchy**
 
-#### Background:
+#### 🔍 Background
+You're modeling diverse types of products. Some can expire (e.g., milk), others are non-perishable (e.g., documents). All products share common identity fields but differ in behavior.
 
-Suppliers provide products, customers receive them.
+#### 🪜 Steps
+1. Define a base abstract class `Product` with common fields like `id`, `name`, and an abstract method `getType()`.
+2. Create 3 subclasses:
+   - `Document`: represents paperwork or forms.
+   - `Electronic`: devices like phones, routers.
+   - `Perishable`: anything that expires. Add an integer field (e.g., `expirationDay`) and a method `isExpired(int today)`.
+3. In `Perishable`, if an expired item is processed, it should trigger an `ExpiredProductException`.
+4. Use encapsulation (private fields + public getters/setters).
+5. Override `toString()` in each subclass to display clean info.
 
-#### Instructions:
-
-1. Create an **abstract class **`` with `id`, `name`, and a `getRole()` method.
-2. Implement `Supplier` and `Customer` classes.
-3. Suppliers have a `List<Package<? extends Product>> packagesSupplied`
-4. Customers have a method to receive a `Package<?>`
-
-#### Concepts:
-
-- Abstract classes
-- Inheritance
-- Polymorphism with wildcards
+#### 🧠 Concepts
+- Abstract classes & polymorphism
+- Domain-specific behavior
+- Exception triggering from domain logic
 
 ---
 
-### 🧠 Task 5: Supply Chain Utilities (Generic Methods)
+### 🏪 **Task 2: Build a Generic Storage Unit**
 
-#### Background:
+#### 🔍 Background
+Warehouses need containers for storing different item types. These containers must be generic, so they can hold any type, and must prevent invalid use (e.g., adding null, or retrieving when empty).
 
-We want reusable utilities for printing, filtering, and processing inventory.
+#### 🪜 Steps
+1. Create a generic class `StorageUnit<T>`.
+2. Add:
+   - `addItem(T item)`: If `item` is `null`, throw an `InvalidInputException`.
+   - `getItem()`: If nothing is stored, throw an `EmptyStorageException`.
+3. Add another version that holds multiple items in a `List<T>` (like a shelf).
+4. Implement basic bulk operations like adding a list of items and retrieving the whole list.
 
-#### Instructions:
+#### 🧠 Concepts
+- Generic types
+- Exception safety
+- Defensive programming
+- Collection use
 
-Create a class `SupplyChainUtils` with:
+---
 
-1. A **generic method** to print any object: `<T> void displayItem(T item)`
-2. A method to **filter expired perishables**: `<T extends Perishable> List<T> getExpired(List<T> items)`
-3. A method to find packages by product type with wildcards
+### 📦 **Task 3: Create Packages and Inventory System**
 
-#### Concepts:
+#### 🔍 Background
+Items are grouped into packages, and packages are mapped in inventory by ID. These structures must handle bulk data, type diversity, and potential data issues (like expired items).
 
+#### 🪜 Steps
+1. Design a generic class `Package<T>` that holds a collection of products.
+2. Create an `Inventory<T>` class containing a `Map<String, Package<T>>` to associate package IDs to their contents.
+3. Add methods to:
+   - Add new packages.
+   - Retrieve packages by ID.
+   - Print inventory using a method that accepts wildcards (`List<? extends Product>`).
+4. Ensure any invalid or expired product in a package triggers an exception during validation or reporting.
+
+#### 🧠 Concepts
+- Map-based indexing
+- Generic and wildcard methods
+- Data integrity enforcement
+- Exception-driven control flow
+
+---
+
+### 👩‍💼 **Task 4: Create People Hierarchy (Supplier/Customer)**
+
+#### 🔍 Background
+People in the supply chain either provide products (suppliers) or receive them (customers). Each role must interact with the system in a safe, validated manner.
+
+#### 🪜 Steps
+1. Create an abstract class `Person` with shared fields like `id`, `name`, and method `getRole()`.
+2. Implement:
+   - `Supplier`: Owns a list of `Package<? extends Product>`. Can add products to packages.
+   - `Customer`: Can `receivePackage(Package<?>)`. If a package includes expired items, throw `ExpiredProductException`.
+3. Ensure that no person is created with a blank or null ID/name. Use `InvalidInputException` to enforce this.
+
+#### 🧠 Concepts
+- Abstract class + inheritance
+- Polymorphic roles
+- Wildcards in method parameters
+- Runtime input validation
+
+---
+
+### 🧠 **Task 5: Utility Methods (with Exception Handling)**
+
+#### 🔍 Background
+Utility classes provide reusable functionality, and they should be defensive. These methods will validate, filter, and display data safely.
+
+#### 🪜 Steps
+1. Create a class `SupplyChainUtils`.
+2. Add:
+   - A generic method `displayItem(T item)` to print any item.
+   - A method `<T extends Perishable> List<T> getExpired(List<T> items, int today)` that returns expired items.
+     - If any are expired, consider throwing `ExpiredProductException` or logging a warning.
+   - A method `validateInput(String value)` that throws `InvalidInputException` for null/empty strings.
+3. Use these utility methods across your entire app.
+
+#### 🧠 Concepts
 - Generic methods
-- Bounded type parameters
-- Wildcards in method params
+- Input validation
+- Bounded types and exceptions
+- Centralized error prevention
 
 ---
 
-### 🧪 Task 6: Demonstrate Type Erasure
+### 🧪 **Task 6: Demonstrate Type Erasure**
 
-#### Background:
+#### 🔍 Background
+Generic types are erased at runtime — that’s Java’s type erasure. Proving it shows your understanding of the limits of generics.
 
-Your manager wants proof that type info is erased at runtime.
+#### 🪜 Steps
+1. Create two storage units: `StorageUnit<Electronic>` and `StorageUnit<Document>`.
+2. Use reflection to print their class names and show they're the same type at runtime.
+3. Handle potential reflection exceptions in a try-catch block.
 
-#### Instructions:
-
-1. In your `main` class, create two storage units:
-   - `StorageUnit<Electronic>`
-   - `StorageUnit<Document>`
-2. Use reflection or `instanceof` to demonstrate that type `T` is not preserved.
-
-#### Concepts:
-
-- Type erasure theory
+#### 🧠 Concepts
+- Type erasure demonstration
+- Reflection API
+- Safe introspection
 
 ---
 
-### 🧩 Task 7: Bring it All Together in `SmartSupplyChainApp`
+### 🧩 **Task 7: SmartSupplyChainApp – The Simulation**
 
-#### Background:
+#### 🔍 Background
+This is your system's big demo. Simulate an end-to-end flow from supplier to customer, ensuring all exception handling paths are covered.
 
-You need a working simulation to demo to stakeholders.
+#### 🪜 Steps
+1. In your `main()` method:
+   - Create a supplier and add valid + expired products to packages.
+   - Add packages to inventory.
+   - Have a customer receive a package.
+   - Catch any exceptions and print clear logs.
+2. Add simulations of:
+   - Getting from empty storage
+   - Creating a product with invalid input
+   - Receiving a package with expired items
+3. Log exceptions using `System.out.println()` or optionally Java’s `Logger`.
+4. Use a `finally` block to print a closing statement (e.g., `System shutting down...`).
 
-#### Instructions:
-
-1. In `SmartSupplyChainApp`:
-
-   - Create products and suppliers
-   - Package items and add to inventory
-   - Print reports using wildcard methods
-   - Call utility functions to filter expired items
-
-2. Use collections (ArrayList, Map) properly throughout
-
-3. Use `toString()` and clean output to present data
-
-#### Concepts:
-
-- Application architecture
-- System testing
-- Clean coding practices
+#### 🧠 Concepts
+- Application orchestration
+- Multi-exception handling
+- Error recovery and cleanup
 
 ---
 
-## 💎 Bonus Challenges (Optional)
-Create a **CLI** to interact with suppliers and inventory
+## 💎 Bonus Challenges (Optional – 10 pts)
+
+1. Use `Scanner` to create a basic CLI — input validation is key!
+2. Replace `System.out.println()` with a proper `Logger` for exception events.
+3. Add retry logic if an exception is thrown during item addition or retrieval.
 
 ---
 
-## 📤 Submission
+## 📤 Submission Checklist
 
-Push your entire project to a **public GitHub repo** named: `SmartSupplyChain-YourName`
-
-- Include a clear `README.md`
-- Include sample data in your `main` method
-- Submit the link on Slack
-
----
-
-## 🧠 Final Advice
-
-- Write clear and maintainable code
-- Stick to Java best practices
-- Focus on relationships and reusability, not just completing the checklist
-- This project simulates what real enterprise backends look like — **design it like you mean it!**
-
-Good luck, engineer! 💼
-
+✅ Push to GitHub (`SmartSupplyChain-YourName`)  
+✅ Include a complete README and sample outputs  
+✅ Submit the link on your class portal or LMS
